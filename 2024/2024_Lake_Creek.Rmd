@@ -1,0 +1,42 @@
+---
+title: "2024_Lake_Creek_Sonar"
+output: html_document
+date: "2025-03-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages and functions,include=FALSE}
+library(lubridate)
+library(WriteXLS)
+library(magrittr)
+library(dplyr)
+library(tidyverse)
+library(DT)
+source(".\\ARIS_ProcessFiles.R")
+source(".\\SonarCounts.R")
+```
+
+```{r}
+LakeCreek24 <- ProcessFiles("O:\\SF\\SALMON\\CHINOOK\\Lake Creek\\ARIS R\\2024 - Copy")
+## Gets rid of the 1970 placeholder that ProcessFiles kicks out
+LakeCreek24 <- subset(LakeCreek24, LakeCreek24$Date!="1970-01-01")
+```
+
+
+
+```{r}
+SeasonTotal <- Sonar_counts(LakeCreek24, min_threshold = 50, threshold_date = NULL, new_threshold = NULL)
+
+```
+
+```{r}
+print.data.frame(SeasonTotal$Daily)
+
+print.data.frame(SeasonTotal$Totals)
+
+```
+
