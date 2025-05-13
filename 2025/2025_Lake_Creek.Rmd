@@ -1,0 +1,42 @@
+---
+title: "2025_Lake_Creek_Sonar"
+output: html_document
+date: "2025-05-18"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages and functions,include=FALSE}
+library(lubridate)
+library(WriteXLS)
+library(magrittr)
+library(dplyr)
+library(tidyverse)
+library(DT)
+source(".\\2025\\ARIS_ProcessFiles.R")
+source(".\\2025\\SonarCounts.R")  ## open and modify this function to change strata designations to fit actual
+```
+
+```{r}
+LakeCreek25 <- ProcessFiles("O:\\SF\\SALMON\\CHINOOK\\Lake Creek\\ARIS R\\2025")
+## Gets rid of the 1970 placeholder that ProcessFiles kicks out
+LakeCreek25 <- subset(LakeCreek25, LakeCreek24$Date!="1970-01-01")
+```
+
+
+
+```{r}
+SeasonTotal <- Sonar_counts(LakeCreek25, min_threshold = 50, threshold_date = NULL, new_threshold = NULL)
+
+```
+
+```{r}
+print.data.frame(SeasonTotal$Daily)
+
+print.data.frame(SeasonTotal$Totals)
+
+```
+
